@@ -16,7 +16,7 @@
 
 export class Goal {
   constructor(
-    public id: string,
+    public _id: string,
     public title: string,
     public description: string,
     public dueDate: Date | null = null,

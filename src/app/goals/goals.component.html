@@ -1,10 +1,13 @@
 <div class="goals-container">
-    <div class="container">
-        <div class="row goals-content">
-            <div class="col-md-5">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Goals List Panel -->
+            <div class="col-md-7">
                 <app-goal-list></app-goal-list>
             </div>
-            <div class="col-md-7">
+            
+            <!-- Details Panel -->
+            <div class="col-md-5">
                 <router-outlet></router-outlet>
             </div>
         </div>

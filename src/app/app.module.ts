@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -14,7 +14,6 @@ import { GoalEditComponent } from './goals/goal-edit/goal-edit.component';
 import { GoalItemComponent } from './goals/goal-item/goal-item.component';
 import { GoalListComponent } from './goals/goal-list/goal-list.component';
 import { GoalsFilterPipe } from './goals/goals-filter.pipe';
-// import { GoalsModule } from './goals/goals.module';
 
 @NgModule({
   declarations: [
@@ -29,12 +28,11 @@ import { GoalsFilterPipe } from './goals/goals-filter.pipe';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule,  // This already includes RouterModule.forRoot()
     CommonModule,
+    FormsModule,
     HttpClientModule,
-    DragDropModule,
-    // GoalsModule,
-    RouterModule.forRoot([])
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

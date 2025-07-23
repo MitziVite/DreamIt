@@ -1,1 +1,17 @@
-<p>goal-item works!</p>
+<div class="goal-item" 
+     [class.completed]="goal.completed"
+     [class.selected]="selected"
+     (click)="onSelect()">
+    <div class="goal-content">
+        <h3>{{ goal.title }}</h3>
+        <p>{{ goal.description }}</p>
+    </div>
+    <div class="goal-actions" (click)="$event.stopPropagation()">
+        <button (click)="onDelete()" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+        <button (click)="onToggleComplete()" class="btn btn-primary">
+            {{ goal.completed ? 'Mark Incomplete' : 'Mark Complete' }}
+        </button>
+    </div>
+</div>

@@ -1,15 +1,28 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Goal } from '../goal.model';
 
 @Component({
   selector: 'app-goal-item',
-  standalone: false,
   templateUrl: './goal-item.component.html',
-  styleUrl: './goal-item.component.css'
+  styleUrls: ['./goal-item.component.css'],
+  standalone: false
 })
-export class GoalItemComponent implements OnInit {
+export class GoalItemComponent {
   @Input() goal!: Goal;
-  
-  constructor() {}
-  ngOnInit() {}
+  @Input() selected: boolean = false; 
+  @Output() deleteGoal = new EventEmitter<Goal>();
+  @Output() toggleComplete = new EventEmitter<Goal>();
+  @Output() select = new EventEmitter<Goal>();
+
+  onSelect() {
+    this.select.emit(this.goal);
+  }
+
+  onDelete() {
+    this.deleteGoal.emit(this.goal);
+  }
+
+  onToggleComplete() {
+    this.toggleComplete.emit(this.goal);
+  }
 }

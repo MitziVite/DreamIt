@@ -1,1 +1,106 @@
-<p>goal-edit works!</p>
+<div class="edit-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center p-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+    <button class="btn btn-link" (click)="onNavigateToGoals()">Return to Goals</button>
+  </div>
+
+  <!-- Edit Form -->
+  <div *ngIf="!loading && !error">
+    <h2>{{ editMode ? 'Edit Goal' : 'Create New Goal' }}</h2>
+    
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <div class="form-group">
+        <label for="title">Title *</label>
+        <input 
+          type="text" 
+          id="title"
+          name="title"
+          class="form-control"
+          [ngModel]="goal.title"
+          required
+          minlength="3"
+          #title="ngModel">
+        <div *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
+          <small *ngIf="title.errors?.['required']">Title is required</small>
+          <small *ngIf="title.errors?.['minlength']">Title must be at least 3 characters long</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control"
+          [ngModel]="goal.description"
+          rows="3"
+          maxlength="500"
+          #description="ngModel">
+        </textarea>
+        <div class="text-muted">
+          <small>{{ 500 - (description.value?.length || 0) }} characters remaining</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dueDate">Due Date</label>
+        <input
+          type="date"
+          id="dueDate"
+          name="dueDate"
+          class="form-control"
+          [ngModel]="goal.dueDate | date:'yyyy-MM-dd'"
+          [min]="minDate"
+          #dueDate="ngModel">
+        <div *ngIf="dueDate.invalid && (dueDate.dirty || dueDate.touched)" class="text-danger">
+          <small *ngIf="dueDate.errors?.['min']">Due date cannot be in the past</small>
+        </div>
+      </div>
+
+      <div class="form-check mb-3">
+        <input
+          type="checkbox"
+          id="completed"
+          name="completed"
+          class="form-check-input"
+          [ngModel]="goal.completed">
+        <label class="form-check-label" for="completed">
+          Mark as completed
+        </label>
+      </div>
+
+      <div class="button-group">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="f.invalid || loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+          {{ editMode ? 'Update' : 'Create' }} Goal
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          (click)="onCancel()"
+          [disabled]="loading">
+          Cancel
+        </button>
+        <button 
+          *ngIf="editMode"
+          type="button" 
+          class="btn btn-outline-danger ms-auto"
+          (click)="onDelete()"
+          [disabled]="loading">
+          Delete Goal
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

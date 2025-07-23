@@ -1,13 +1,14 @@
-.row {
-    margin-top: 76px; /* Ajusta este valor según la altura de tu navbar */
-}
-
 .goals-container {
-    padding-top: 100px;  /* Increased padding to ensure content isn't hidden */
-    min-height: calc(100vh - 76px); /* Viewport height minus header height */
-    background-color: #fff;
+    padding-top: 20px;
+    min-height: calc(100vh - 76px);
+    background-color: #121212;
+    color: white;
 }
 
 .goals-content {
     margin-top: 20px;
+}
+
+.col-md-5, .col-md-7 {
+    padding: 1rem;
 }

@@ -1,36 +1,79 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>My Goals</h2>
-                <div class="pull-left">
-                    <button class="btn btn-success" [routerLink]="['new']">New Goal</button>
+<!-- <div class="container-fluid" [class.has-selected-goal]="selectedGoal"> -->
+    <div class="row">
+        <!-- Goals List Panel -->
+        <div class="col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row align-items-center">
+                        <div class="col-xs-12">
+                            <h2 class="panel-title">My Goals</h2>
+                            <div class="actions-container">
+                                <div class="search-container">
+                                    <input 
+                                        #searchBox
+                                        class="search-input" 
+                                        type="text" 
+                                        placeholder="Search goals..."
+                                        (keyup)="search(searchBox.value)">
+                                    <i class="fas fa-search search-icon"></i>
+                                </div>
+                                <button class="btn btn-success" [routerLink]="['new']">
+                                    <i class="fas fa-plus"></i> New Goal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="pull-right">
-                    <input 
-                        #searchBox
-                        class="form-control" 
-                        type="text" 
-                        (keyup)="search(searchBox.value)">
-                        placeholder="Search..." 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-xs-12">
-                <div *ngIf="goals.length === 0" class="alert alert-info">
-                    No goals found. Create a new one!
-                </div>
-                <app-goal-item
-                    *ngFor="let goalEl of goals | goalsFilter:term"
-                    [goal]="goalEl"
-                    (click)="onSelected(goalEl)">
-                </app-goal-item>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- <h1>My Goals</h1> -->
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- Loading State -->
+                            <div *ngIf="loading" class="text-center p-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+
+                            <!-- Error State -->
+                            <div *ngIf="error" class="alert alert-danger">
+                                {{ error }}
+                                <button class="btn btn-link" (click)="retryLoading()">Retry</button>
+                            </div>
+
+                            <!-- Empty State -->
+                            <div *ngIf="!loading && !error && goals.length === 0" 
+                                class="alert alert-info text-center">
+                                <i class="fas fa-clipboard-list fa-2x mb-3"></i>
+                                <p>No goals found. Create a new one!</p>
+                                <button class="btn btn-primary" [routerLink]="['new']">
+                                    Create First Goal
+                                </button>
+                            </div>
+
+                            <!-- Goals List -->
+                            <!-- Goals List -->
+                            <div class="goals-container" *ngIf="!loading && !error && goals.length > 0">
+                                <app-goal-item
+                                    *ngFor="let goal of goals | goalsFilter:searchTerm; trackBy: trackByGoalId"
+                                    [goal]="goal"
+                                    [selected]="selectedGoal?._id === goal._id"
+                                    (deleteGoal)="onDeleteGoal($event)"
+                                    (toggleComplete)="onToggleComplete($event)"
+                                    class="goal-item-wrapper"
+                                    (click)="onGoalClick(goal)">
+                                </app-goal-item>
+                            </div>
+                            </div>
+
+                            <!-- No Results -->
+                            <div *ngIf="!loading && !error && goals.length > 0 && (goals | goalsFilter:searchTerm).length === 0" 
+                                class="alert alert-warning text-center">
+                                <i class="fas fa-search fa-2x mb-3"></i>
+                                <p>No goals match your search criteria.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

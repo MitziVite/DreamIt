@@ -34,6 +34,9 @@ getGoals() {
     return this.http.get<{ message: string, goals: Goal[] }>('http://localhost:3000/goals');
   }
 
+
+
+
 // getGoals(): Observable<{ message: string, goals: Goal[] }> {
 //     console.group('Goals Service - getGoals()');
 //     console.log('📍 Request URL:', this.baseUrl);
@@ -112,7 +115,7 @@ getGoals() {
       return throwError(() => new Error('Invalid goal data'));
     }
 
-    const pos = this.goals.findIndex(d => d.id === originalGoal.id);
+    const pos = this.goals.findIndex(d => d._id === originalGoal._id);
     if (pos < 0) {
       return throwError(() => new Error('Goal not found'));
     }
@@ -120,7 +123,7 @@ getGoals() {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.put<Goal>(
-      `${this.baseUrl}/${originalGoal.id}`,
+      `${this.baseUrl}/${originalGoal._id}`,
       newGoal,
       { headers }
     ).pipe(
@@ -135,27 +138,39 @@ getGoals() {
     );
   }
 
+  // deleteGoal(goal: Goal): Observable<void> {
+  //   if (!goal) {
+  //     return throwError(() => new Error('Invalid goal data'));
+  //   }
+
+  //   const pos = this.goals.findIndex(d => d.id === goal.id);
+  //   if (pos < 0) {
+  //     return throwError(() => new Error('Goal not found'));
+  //   }
+
+  //   return this.http.delete<void>(`${this.baseUrl}/${goal.id}`).pipe(
+  //     tap(() => {
+  //       this.goals.splice(pos, 1);
+  //       this.sortAndSend();
+  //     }),
+  //     catchError(error => {
+  //       console.error('Error deleting goal:', error);
+  //       return throwError(() => error);
+  //     })
+  //   );
+  // }
   deleteGoal(goal: Goal): Observable<void> {
-    if (!goal) {
-      return throwError(() => new Error('Invalid goal data'));
-    }
-
-    const pos = this.goals.findIndex(d => d.id === goal.id);
-    if (pos < 0) {
-      return throwError(() => new Error('Goal not found'));
-    }
-
-    return this.http.delete<void>(`${this.baseUrl}/${goal.id}`).pipe(
-      tap(() => {
-        this.goals.splice(pos, 1);
-        this.sortAndSend();
-      }),
-      catchError(error => {
-        console.error('Error deleting goal:', error);
-        return throwError(() => error);
-      })
-    );
+  if (!goal || !goal._id) {
+    return throwError(() => new Error('Invalid goal'));
   }
+
+  return this.http.delete<void>(`${this.baseUrl}/${goal._id}`).pipe(
+    catchError(error => {
+      console.error('Error deleting goal:', error);
+      return throwError(() => error);
+    })
+  );
+}
 
   private sortAndSend(): void {
     this.goals.sort((a, b) => {

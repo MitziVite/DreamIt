@@ -1,0 +1,40 @@
+:host {
+    background-color: #121212;
+    min-height: 100vh;
+    display: block;
+}
+
+.container {
+    padding-top: 76px;
+}
+
+/* Add to your global styles */
+body {
+    background-color: #121212;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+* {
+    transition: background-color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.3s ease;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1E1E1E;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #6366F1, #bd55bb);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #bd55bb, #6366F1);
+}

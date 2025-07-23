@@ -130,21 +130,40 @@ const server = http.createServer(app);
 
 // MongoDB connection without deprecated options
 mongoose.connect(mongoDbUrl)
-.then(() => {
-  console.log('Connected to MongoDB Atlas!');
-  server.listen(port, () => {
-    console.log('Server is running on http://localhost:' + port);
-  });
+.then(async () => {
+    console.log('✅ Connected to MongoDB Atlas!');
+    console.log('📊 Database:', mongoose.connection.db.databaseName);
+    
+    // List all collections
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    console.log('📚 Collections:', collections.map(c => c.name));
+    
+    // Check if Goals collection is empty
+    const count = await mongoose.connection.db.collection('Goals').countDocuments();
+    console.log('🎯 Number of goals in database:', count);
+
+    // If empty, add a test goal
+    if (count === 0) {
+        const Goal = require('./server/models/goal.model');
+        const testGoal = new Goal({
+            title: 'Test Goal',
+            description: 'This is a test goal',
+            dueDate: new Date(),
+            completed: false
+        });
+
+        await testGoal.save();
+        console.log('✨ Test goal created successfully');
+    }
+
+    server.listen(port, () => {
+        console.log('🚀 Server running on http://localhost:' + port);
+    });
 })
 .catch(error => {
-  console.error('MongoDB Atlas Connection Error:', error);
-  console.log('Please check:');
-  console.log('1. Your internet connection');
-  console.log('2. Your MongoDB Atlas credentials');
-  console.log('3. IP whitelist settings in MongoDB Atlas');
-  process.exit(1);
+    console.error('❌ MongoDB Atlas Connection Error:', error);
+    process.exit(1);
 });
-
 // Handle process termination
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {
