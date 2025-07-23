@@ -1,0 +1,36 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>My Goals</h2>
+                <div class="pull-left">
+                    <button class="btn btn-success" [routerLink]="['new']">New Goal</button>
+                </div>
+                <div class="pull-right">
+                    <input 
+                        #searchBox
+                        class="form-control" 
+                        type="text" 
+                        (keyup)="search(searchBox.value)">
+                        placeholder="Search..." 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <div *ngIf="goals.length === 0" class="alert alert-info">
+                    No goals found. Create a new one!
+                </div>
+                <app-goal-item
+                    *ngFor="let goalEl of goals | goalsFilter:term"
+                    [goal]="goalEl"
+                    (click)="onSelected(goalEl)">
+                </app-goal-item>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <h1>My Goals</h1> -->

@@ -1,0 +1,113 @@
+/* Main navbar styles */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    padding: 1rem 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+/* Brand/logo styles */
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    padding: 0.5rem 0;
+}
+
+.brand-text {
+    background: linear-gradient(45deg, #6366F1, #bd55bb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+}
+
+/* Navigation links */
+.nav-link {
+    color: #4B5563 !important;
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 0.5rem 1.5rem !important;
+    transition: all 0.3s ease;
+    position: relative;
+    margin: 0 0.25rem;
+}
+
+.nav-link:hover {
+    color: #6366F1 !important;
+    transform: translateY(-1px);
+}
+
+/* Navigation container */
+.navbar-nav {
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* Active link styles */
+.nav-link.active {
+    color: #6366F1 !important;
+    font-weight: 600;
+    position: relative;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 2px;
+    /* background: linear-gradient(45deg, #f163e5, #f65c88); */
+    border-radius: 2px;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Hamburger menu */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    to {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        margin-top: 1rem;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(143, 143, 143, 0.05);
+    }
+    
+    .nav-link {
+        padding: 0.75rem 0 !important;
+    }
+
+    .nav-link.active::after {
+        left: 0;
+        right: 0;
+    }
+    
+    .navbar-nav {
+        gap: 0.25rem;
+    }
+}
