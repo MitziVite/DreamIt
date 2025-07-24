@@ -52,7 +52,6 @@
                             </div>
 
                             <!-- Goals List -->
-                            <!-- Goals List -->
                             <div class="goals-container" *ngIf="!loading && !error && goals.length > 0">
                                 <app-goal-item
                                     *ngFor="let goal of goals | goalsFilter:searchTerm; trackBy: trackByGoalId"

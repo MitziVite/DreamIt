@@ -28,24 +28,7 @@ export class GoalDetailComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  // ngOnInit() {
-  //   // Only fetch goal if no input goal is provided (routing case)
-  //   if (!this.goal) {
-  //     this.loading = true;
-  //     this.activatedRoute.params
-  //       .pipe(takeUntil(this.destroy$))
-  //       .subscribe(params => {
-  //         const id = params['id'];
-  //         if (!id) {
-  //           this.error = 'No goal ID provided';
-  //           this.router.navigate(['/goals']);
-  //           return;
-  //         }
-          
-  //         this.loadGoal(id);
-  //       });
-  //   }
-  // }
+
 
   ngOnInit() {
   console.log('GoalDetailComponent initialized');
@@ -61,9 +44,9 @@ export class GoalDetailComponent implements OnInit, OnDestroy {
 }
 
   private loadGoal(id: string) {
-  console.log('Loading goal with id:', id);
-  this.loading = true;
-  this.goalService.getGoal(id)
+    console.log('Loading goal with id:', id);
+    this.loading = true;
+    this.goalService.getGoal(id)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (goal: Goal) => {
@@ -76,20 +59,72 @@ export class GoalDetailComponent implements OnInit, OnDestroy {
         this.error = 'Failed to load goal';
         this.loading = false;
       }
-    })}
+    })
+  }
 
   onEdit() {
-    this.edit.emit(this.goal);
+    // this.edit.emit(this.goal);
+    this.router.navigate(['/goals', this.goal._id, 'edit']);
   }
 
   onDelete() {
-    if (confirm(`Are you sure you want to delete "${this.goal.title}"?`)) {
-      this.delete.emit(this.goal);
+    if (!confirm('Are you sure you want to delete this goal?')) {
+      return;
     }
+
+    this.loading = true;
+    this.goalService.deleteGoal(this.goal)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.loading = false;
+          this.router.navigate(['/goals']);
+        },
+        error: (error) => {
+          console.error('Error deleting goal:', error);
+          this.error = 'Failed to delete goal. Please try again.';
+          this.loading = false;
+        }
+      });
   }
 
   onToggleComplete() {
-    this.toggleComplete.emit(this.goal);
+    const goal = this.goal;
+
+    const originalGoal = { ...goal };
+    const updatedGoal = { ...goal, completed: !goal.completed };
+    
+    // Optimistic update
+    // console.log("Find goal", updatedGoal)
+    // const index = this.goals.findIndex(g => g._id === goal._id);
+    // if (index !== -1) {
+      // console.log("Goal founded", this.goals[index])
+      // this.goals[index] = updatedGoal;
+    //}
+
+    // Update selected goal if it's the one being toggled
+    // if (this.selectedGoal?._id === goal._id) {
+      // this.selectedGoal = updatedGoal;
+    //}
+
+    this.goalService.updateGoal(originalGoal, updatedGoal)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          // Success - UI already updated
+        },
+        error: (error) => {
+          // Revert on error
+          // if (index !== -1) {
+            // this.goals[index] = originalGoal;
+          // }
+          // if (this.selectedGoal?._id === goal._id) {
+            // this.selectedGoal = originalGoal;
+          // }
+          console.error('Error updating goal:', error);
+          this.error = 'Failed to update goal. Please try again.';
+        }
+      });
   }
 
   onClose() {

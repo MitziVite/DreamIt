@@ -111,14 +111,18 @@ getGoals() {
   }
 
   updateGoal(originalGoal: Goal, newGoal: Goal): Observable<Goal> {
+    console.log("Previus", originalGoal);
+    console.log("New", newGoal);
     if (!originalGoal || !newGoal) {
       return throwError(() => new Error('Invalid goal data'));
     }
 
-    const pos = this.goals.findIndex(d => d._id === originalGoal._id);
-    if (pos < 0) {
-      return throwError(() => new Error('Goal not found'));
-    }
+    console.log("Searching in goals", this.goals)
+    // const pos = this.goals.findIndex(d => d._id === originalGoal._id);
+    // console.log(pos)
+    // if (pos < 0) {
+    //  return throwError(() => new Error('Goal not found'));
+    //}
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -128,7 +132,7 @@ getGoals() {
       { headers }
     ).pipe(
       tap(updatedGoal => {
-        this.goals[pos] = updatedGoal;
+        //this.goals[pos] = updatedGoal;
         this.sortAndSend();
       }),
       catchError(error => {

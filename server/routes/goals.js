@@ -21,7 +21,8 @@ router.get('/', (req, res) => {
 
 // GET single goal
 router.get('/:id', (req, res) => {
-  Goal.findOne({ "id": req.params.id })
+  Goal.findById(req.params.id)
+  // Goal.findOne({ "_id": req.params.id })
     .then(goal => {
       res.status(200).json(goal);
     })
@@ -35,8 +36,9 @@ router.get('/:id', (req, res) => {
 
 // POST new goal
 router.post('/', (req, res) => {
+  // Default id is _id
   const goal = new Goal({
-    id: req.body.id,
+    _id: req.body.id,
     title: req.body.title,
     description: req.body.description,
     dueDate: req.body.dueDate,
@@ -61,7 +63,7 @@ router.post('/', (req, res) => {
 // PUT update goal
 router.put('/:id', (req, res) => {
   Goal.findOneAndUpdate(
-    { id: req.params.id },
+    { _id: req.params.id },
     {
       title: req.body.title,
       description: req.body.description,
@@ -83,7 +85,7 @@ router.put('/:id', (req, res) => {
 
 // DELETE goal
 router.delete('/:id', (req, res) => {
-  Goal.findOneAndDelete({ id: req.params.id })
+  Goal.findOneAndDelete({ _id: req.params.id })
     .then(() => {
       res.status(200).json({ message: 'Goal deleted successfully' });
     })

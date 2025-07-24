@@ -34,10 +34,10 @@ export class GoalListComponent implements OnInit, OnDestroy {
   }
 
   onGoalClick(goal: Goal): void {
-  console.log('Goal clicked:', goal);
-  // Navigate to the goal detail route
-  this.router.navigate(['/goals', goal._id]);
-}
+    console.log('Goal clicked:', goal);
+    // Navigate to the goal detail route
+    this.router.navigate(['/goals', goal._id]);
+  }
   
   loadGoals() {
   console.log('Loading goals...'); // Debug log
@@ -134,8 +134,10 @@ onGoalSelect(goal: Goal) {
     const updatedGoal = { ...goal, completed: !goal.completed };
     
     // Optimistic update
+    console.log("Find goal", updatedGoal)
     const index = this.goals.findIndex(g => g._id === goal._id);
     if (index !== -1) {
+      console.log("Goal founded", this.goals[index])
       this.goals[index] = updatedGoal;
     }
 
