@@ -128,7 +128,8 @@ export class GoalDetailComponent implements OnInit, OnDestroy {
   }
 
   onClose() {
-    this.close.emit();
+    // this.close.emit();
+    this.router.navigate(['/goals']);
   }
 
   getFormattedDate(date: Date | null): string {

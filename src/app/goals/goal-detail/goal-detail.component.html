@@ -29,11 +29,16 @@
             <button class="btn btn-danger" (click)="onDelete()">
                 <i class="fas fa-trash"></i> Delete
             </button>
-            <button class="btn btn-secondary" (click)="onToggleComplete()">
+            <!-- <button class="btn btn-secondary" (click)="onToggleComplete()">
                 <i class="fas" [class.fa-check-circle]="goal.completed" [class.fa-circle]="!goal.completed"></i>
                 {{ goal.completed ? 'Mark Incomplete' : 'Mark Complete' }}
-            </button>
-            <button class="btn btn-link" (click)="onClose()">Close</button>
+            </button> -->
+            <button 
+    class="btn btn-link btn-close-detail" 
+    (click)="onClose()" 
+    style="color: #dc3545; font-weight: bold; font-size: 1.1rem; text-decoration: none; border: 1px solid #dc3545; border-radius: 20px; padding: 6px 18px; margin-left: 10px; transition: background 0.2s;">
+    <i class="fas fa-times"></i> Close
+</button>
         </div>
     </div>
 </div>

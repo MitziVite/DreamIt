@@ -40,26 +40,26 @@ export class GoalListComponent implements OnInit, OnDestroy {
   }
   
   loadGoals() {
-  console.log('Loading goals...'); // Debug log
-  this.loading = true;
-  this.error = null;
-  
-  this.goalService.getGoals()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (response) => {
-        console.log('Goals loaded:', response); // Debug log
-        console.log('Goals array:', response.goals); // Debug log
-        console.log('Goals length:', response.goals.length); // Debug log
-        this.goals = response.goals;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading goals:', error);
-        this.error = 'Failed to load goals. Please try again.';
-        this.loading = false;
-      }
-    });
+    console.log('Loading goals...'); // Debug log
+    this.loading = true;
+    this.error = null;
+    
+    this.goalService.getGoals()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          console.log('Goals loaded:', response); // Debug log
+          console.log('Goals array:', response.goals); // Debug log
+          console.log('Goals length:', response.goals.length); // Debug log
+          this.goals = response.goals;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error loading goals:', error);
+          this.error = 'Failed to load goals. Please try again.';
+          this.loading = false;
+        }
+      });
 }
 onGoalSelect(goal: Goal) {
   console.log('onGoalSelect called with goal:', goal); // Debug log

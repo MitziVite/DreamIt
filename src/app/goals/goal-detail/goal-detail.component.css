@@ -16,6 +16,13 @@
     z-index: 1000;
 }
 
+.btn-close-detail:hover {
+    background: #dc3545;
+    color: #fff !important;
+    border-color: #dc3545;
+    text-decoration: none;
+}
+
 .detail-header {
     margin-bottom: 2rem;
 }
